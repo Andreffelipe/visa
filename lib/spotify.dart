@@ -13,7 +13,7 @@ class SpotifyAuth extends Visa {
   final Debug _debug = Debug(prefix: 'In SpotifyAuth ->');
 
   @override
-  SimpleAuth visa;
+  late SimpleAuth visa;
 
   SpotifyAuth() {
     visa = SimpleAuth(
@@ -30,10 +30,10 @@ class SpotifyAuth extends Visa {
           if (debugMode) _debug.info('OAuth Data: $oauthData');
 
           await _getToken(oauthData);
-          final String token = oauthData[OAuth.TOKEN_KEY];
+          final String? token = oauthData[OAuth.TOKEN_KEY];
           if (debugMode) _debug.info('OAuth token: $token');
 
-          final Map<String, dynamic> profileJson = await _getProfile(token);
+          final Map<String, dynamic> profileJson = await _getProfile(token!);
 
           if (debugMode) _debug.info('Modified Profile Json: $profileJson');
           return authData(profileJson, oauthData);
@@ -45,7 +45,7 @@ class SpotifyAuth extends Visa {
   /// to build an [AuthData] object.
   AuthData authData(
       Map<String, dynamic> profileJson, Map<String, String> oauthData) {
-    final String accessToken = oauthData[OAuth.TOKEN_KEY];
+    final String? accessToken = oauthData[OAuth.TOKEN_KEY];
 
     return AuthData(
         clientID: oauthData[OAuth.CLIENT_ID_KEY],

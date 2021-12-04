@@ -20,9 +20,9 @@ class SimpleAuth {
       this.responseType,
       this.otherQueryParams});
 
-  final String baseUrl; // OAuth base url
-  final String responseType;
-  final Map<String, String> otherQueryParams;
+  final String? baseUrl; // OAuth base url
+  final String? responseType;
+  final Map<String, String>? otherQueryParams;
 
   /// This function makes the necessary api calls to
   /// get a user's profile data. It accepts a single
@@ -33,7 +33,7 @@ class SimpleAuth {
   /// response returned from the api.
   ///
   /// @return [AuthData]
-  final Function getAuthData;
+  final Function? getAuthData;
 
   /// Debug mode?
   bool debugMode = false;
@@ -43,12 +43,12 @@ class SimpleAuth {
   /// provided credentials. Returns a WebView
   /// That's been set up for authentication
   WebView authenticate(
-      {@required String clientID,
-      String clientSecret,
-      @required String redirectUri,
-      @required String state,
-      @required String scope,
-      @required Function onDone,
+      {required String clientID,
+      String? clientSecret,
+      required String redirectUri,
+      required String state,
+      required String scope,
+      required Function onDone,
       bool newSession = false}) {
     final OAuth oAuth = OAuth(
         baseUrl: baseUrl,
@@ -71,7 +71,7 @@ class SimpleAuth {
 
           AuthData authData = token == null && code == null
               ? AuthData(response: responseData)
-              : await getAuthData(responseData);
+              : await getAuthData!(responseData);
 
           if (debugMode) _debug.info('Returned Authentication Data: $authData');
 
